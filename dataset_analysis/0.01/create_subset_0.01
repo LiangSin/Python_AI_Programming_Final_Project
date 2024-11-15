@@ -1,0 +1,10 @@
+loading annotations into memory...
+Done (t=6.17s)
+creating index...
+index created!
+Total images in original dataset: 118287
+Proportion: 0.01
+Subset size: 1182
+Subset annotations saved to ../annotations/subsets/instances_train2017_subset_0.01.json
+Total images in subset: 1182
+Total annotations in subset: 8719

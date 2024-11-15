@@ -1,0 +1,62 @@
+loading annotations into memory...
+Done (t=0.05s)
+creating index...
+index created!
+Number of annotations per category:
+category_name
+person           2474
+chair             396
+car               364
+bottle            267
+book              258
+                 ... 
+scissors           17
+snowboard          14
+parking meter       5
+toaster             2
+hair drier          1
+Name: count, Length: 80, dtype: int64
+
+Number of annotations per image:
+count    1171.000000
+mean        7.445773
+std         7.742397
+min         1.000000
+25%         2.000000
+50%         4.000000
+75%        10.000000
+max        45.000000
+Name: count, dtype: float64
+
+Area statistics:
+count      8719.000000
+mean      12655.447231
+std       32029.062993
+min           0.753750
+25%         414.159000
+50%        1895.636950
+75%        8919.459975
+max      396896.005950
+Name: area, dtype: float64
+
+Bounding box width statistics:
+count    8719.000000
+mean      107.010914
+std       130.751329
+min         1.160000
+25%        24.485000
+50%        56.990000
+75%       131.035000
+max       640.000000
+Name: bbox_width, dtype: float64
+
+Bounding box height statistics:
+count    8719.000000
+mean      108.372807
+std       114.199912
+min         1.160000
+25%        28.470000
+50%        64.370000
+75%       147.115000
+max       640.000000
+Name: bbox_height, dtype: float64
