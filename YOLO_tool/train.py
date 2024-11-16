@@ -8,7 +8,7 @@ def train(model_path, yaml_path, device):
     # Use the model
     if model_path.endswith('.yaml'):
         results = model.train(data=yaml_path, imgsz=256, device=device, verbose=True,
-                            epochs=300, patience=50, 
+                            epochs=500, patience=50, 
                             weight_decay=0.001, dropout=0.3)
     elif model_path.endswith('.pt'):
         results = model.train(resume=True)
