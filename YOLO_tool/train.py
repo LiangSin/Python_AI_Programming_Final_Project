@@ -19,7 +19,7 @@ if __name__ == "__main__":
     parser.add_argument("--model", type=str, default="yolov8n.yaml", help="The default is training from scratch. Input the existing .pt model file to continue the training process.")
     parser.add_argument("--config", type=str, default="coco.yaml", help="Path to the config file")
     parser.add_argument("--device", type=str, default=0, help="device number")
-    parser.add_argument("--batch", type=int, default=-1, help="Batch size for training. Default is alto mode for 60% GPU utilization")
+    parser.add_argument("--batch", type=int or float, default=-1, help="Batch size for training. Default is alto mode for 60% GPU utilization")
     args = parser.parse_args()
 
     # Run the main function
