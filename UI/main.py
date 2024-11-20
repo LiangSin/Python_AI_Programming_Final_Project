@@ -14,8 +14,11 @@ from PyQt5 import QtWidgets, QtCore, QtGui
 from PyQt5.QtWidgets import QMainWindow, QFileDialog, QListWidgetItem, QShortcut
 from PyQt5.QtGui import QPixmap, QKeySequence
 from PyQt5.QtCore import QSize
+from PyQt5.QtWidgets import QMainWindow, QFileDialog, QListWidgetItem, QShortcut, QLabel
+
 
 from mainPage_ui import Ui_MainWindow
+from popUp_UI import PopupWindow, PopupWindowHelp
 from utils import *
 from api import API
 
@@ -25,6 +28,7 @@ class Main(QMainWindow, Ui_MainWindow):
     super().__init__()
     self.setupUi(self)
     self.setEvent()
+    self.initMenuBar()
     self.currentFileList = []
     self.currentFileIdx = -1
     self.api = API()
@@ -60,6 +64,20 @@ class Main(QMainWindow, Ui_MainWindow):
     self.shortcutZoomEq.activated.connect(self.zoomIn)
     self.shortcutZoomOut = QShortcut(QKeySequence("Ctrl+-"), self)
     self.shortcutZoomOut.activated.connect(self.zoomOut)
+
+  def initMenuBar(self):
+        """Initialize the menu bar and add the Help menu."""
+        # Create a menu bar
+        menubar = self.menuBar()
+
+        # Add a Help menu
+        help_menu = menubar.addMenu("Help")
+
+        # Add a "How to Use" action to the Help menu
+        help_action = QtWidgets.QAction("ShortCut", self)
+        help_menu.triggered.connect(self.showPopupHelp)  # Connect to showPopupHelp
+        help_menu.addAction(help_action)
+
 
   ## ----- show ----- ##
 
@@ -189,6 +207,32 @@ class Main(QMainWindow, Ui_MainWindow):
     self.showPhoto()
 
   ## ----- API ----- ##
+  def showPopup(self, message):
+    """Show a popup window with the specified message."""
+    popup = PopupWindow()
+    popup.setWindowTitle("Warning")
+    popup.findChild(QLabel).setText(message)  # Update message dynamically
+    popup.exec_()
+
+  def showPopupHelp(self):
+    """Show a popup window with the specified message."""
+    popup = PopupWindowHelp()
+    popup.setWindowTitle("ShortCut")
+    message = """
+    Ctrl+O: Open file
+    Ctrl+Shift+O: Open directory
+    Ctrl+S: Change Save directory
+    Right arrow: Next Image
+    Left arrow: Previous Image
+    Ctrl+A: Set API (not done)
+    Ctrl+Return: Count (not done)
+    Ctrl+W: Clear file list
+    Ctrl+Q: Quit
+    """
+    
+    popup.message_label.setText(message)
+    popup.findChild(QLabel).setText(message)  
+    popup.exec_()
 
   def connectToModel(self):
     fname, _ = QFileDialog.getOpenFileName(self, "Connect to Model", filter="All Files (*);;YOLO Models (*.pt)")
@@ -199,6 +243,9 @@ class Main(QMainWindow, Ui_MainWindow):
       return
     if self.api.model is None:
       print("Please connect to model before predicting") ## TODO: Show pop-up box
+      self.showPopup("Please connect to models before predicting")
+      
+
 
     file_path = self.currentFileList[self.currentFileIdx]
     self.api.predict_image(file_path)
@@ -208,6 +255,7 @@ class Main(QMainWindow, Ui_MainWindow):
     if self.currentFileIdx < 0 or self.currentFileIdx >= len(self.currentFileList):
       return
     if self.api.model is None:
+      self.showPopup("Please connect to models before predicting")
       print("Please connect to model before predicting") ## TODO: Show pop-up box
 
     self.api.predict_list(self.currentFileList)
