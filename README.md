@@ -30,11 +30,36 @@ We conducted experiments to evaluate how the size of the training dataset affect
 ### Key Findings
 
 
+
 ## User Guide
 
-To learn how to use our tools and scripts, refer to `useful_scripts.ipynb`, which provides an overview of file usage and instructions.
+To learn how to use our tools and scripts, refer to `useful_scripts.ipynb`, which provides an overview of file usage and instructions. 
 
-### Train a Model
+### Datatset Preparation
 
+1. **Download COCO dataset annotation files**
+    COCO annotation files provide structured data to describe images in the COCO dataset. These files use JSON format to store metadata, including image IDs, categories, bounding boxes, segmentation masks, and keypoints.  
 
-### Use Our Model
+2. **Download COCO dataset images**
+
+3. **Parse COCO annotation files** 
+    `COCO_tool/create_subset.py` creates a subset of a COCO dataset based on a specified proportion, ensuring every category is represented at least once. It randomly selects images while maintaining category diversity, extracts their annotations, and saves the subset in COCO format as a new JSON file. The output is stored in a  `annotations/subsets` directory for further use.
+5. **Convert COCO annotation files to YOLO annotation format**
+    `COCO_tool/create_YOLO_dataset.py` transforms COCO annotation files into YOLO-compatible format. It also removes images without annotation files from the dataset.
+
+### Train
+
+`YOLO_tool/train.py` trains the YOLO model on a given dataset. The basic arguments we defined include : 
+
+1. `--model` : train from scratch or load model checkpoints. Default to `yolov8n.yaml`.
+2. `--config` : configuration files for training. Default to `coco.yaml`.
+3. `--device` : select the device to run on. Default to GPU:0.
+   - a single GPU (device=0)
+   - multiple GPUs (device=0,1)
+   - CPU (device=cpu)
+   - MPS for Apple silicon (device=mps).
+4. `--batch` : select batch size for training. Default to -1 (auto mode for 60% GPU memory utilization).
+
+For more parameter informations, see [official documentation](https://docs.ultralytics.com/modes/train/#introduction).
+
+Trained results will automatically be stored to `YOLO_tool/runs/detect` directory. 
