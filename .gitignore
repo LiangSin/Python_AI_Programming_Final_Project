@@ -4,3 +4,6 @@ __pycache__/
 runs/
 /annotations
 /setup.sh
+*.pt
+*.yaml
+predict/
