@@ -4,8 +4,8 @@ Ctrl+Shift+O: Open directory
 Ctrl+S: Change Save directory
 Right arrow: Next Image 
 Left arrow: Previous Image 
-Ctrl+A: Set API (not done)
-Ctrl+Return: Count (not done)
+Ctrl+A: Link to model
+Ctrl+Return: Predict
 Ctrl+W: Clear file list
 Ctrl+Q: Quit
 """
@@ -145,7 +145,7 @@ class Main(QMainWindow, Ui_MainWindow):
   def openFile(self):
     """Open a single photo."""
 
-    fname, _ = QFileDialog.getOpenFileName(self, "Open File", filter="All Files (*);;PNG Files (*.png);;JPG Files (*.jpg *.jpeg)")
+    fname, _ = QFileDialog.getOpenFileName(self, "Open File", filter="Image Files (*.png *.jpg *.jpeg *.bmp *.tiff *.tif *.webp)")
     if fname:
       self.showFileList([fname])
       self.showPhoto()
@@ -171,6 +171,7 @@ class Main(QMainWindow, Ui_MainWindow):
     self.currentFileList.clear()
     self.fileList.clear()
     self.photo.clear()
+    self.result.setText("")
 
   def zoomIn(self):
     """Enlarge the photo. Triggered by 'Ctrl+=' or 'Ctrl++'"""
@@ -206,7 +207,6 @@ class Main(QMainWindow, Ui_MainWindow):
       self.currentFileIdx = 0
     self.showPhoto()
 
-  ## ----- API ----- ##
   def showPopup(self, message):
     """Show a popup window with the specified message."""
     popup = PopupWindow()
@@ -224,41 +224,50 @@ class Main(QMainWindow, Ui_MainWindow):
     Ctrl+S: Change Save directory
     Right arrow: Next Image
     Left arrow: Previous Image
-    Ctrl+A: Set API (not done)
-    Ctrl+Return: Count (not done)
+    Ctrl+A: Link to model
+    Ctrl+Return: Predict
     Ctrl+W: Clear file list
     Ctrl+Q: Quit
+    Ctrl+= or Ctrl++: Enlarge the photo
+    Ctrl+-: Minify the photo
     """
     
     popup.message_label.setText(message)
     popup.findChild(QLabel).setText(message)  
     popup.exec_()
 
+  ## ----- Model ----- ##
   def connectToModel(self):
-    fname, _ = QFileDialog.getOpenFileName(self, "Connect to Model", filter="All Files (*);;YOLO Models (*.pt)")
-    self.api.Set_Parameter(model_path=os.path.abspath(fname))
+    fname, _ = QFileDialog.getOpenFileName(self, "Connect to Model", filter="YOLO Models (*.pt)")
+    if fname:
+      self.api.Set_Parameter(model_path=os.path.abspath(fname))
+      self.modelLabel.setText(f"Model: {fname}")
 
   def countImage(self):
     if self.currentFileIdx < 0 or self.currentFileIdx >= len(self.currentFileList):
+      self.showPopup("Please open an image.")
       return
     if self.api.model is None:
-      print("Please connect to model before predicting") ## TODO: Show pop-up box
+      print("Please connect to model before predicting")
       self.showPopup("Please connect to models before predicting")
       
 
 
     file_path = self.currentFileList[self.currentFileIdx]
-    self.api.predict_image(file_path)
+    if self.api.predict_image(file_path) == -1:
+      self.showPopup("Unsupported image format detected.")
     self.showPhoto()
 
   def countAllImage(self):
     if self.currentFileIdx < 0 or self.currentFileIdx >= len(self.currentFileList):
+      self.showPopup("Please open images.")
       return
     if self.api.model is None:
       self.showPopup("Please connect to models before predicting")
-      print("Please connect to model before predicting") ## TODO: Show pop-up box
+      print("Please connect to model before predicting")
 
-    self.api.predict_list(self.currentFileList)
+    if self.api.predict_list(self.currentFileList) == -1:
+      self.showPopup("Unsupported image format detected.")
     self.showPhoto()
 
   # def count_image(self):

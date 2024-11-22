@@ -24,6 +24,8 @@ class API:
           return "Please set model path before predicting"
           
       image = cv2.imread(input_path)
+      if image is None:
+        return -1
       # Remove image_size and imgsz parameter
       results = self.model.predict(image, conf=conf_threshold)[0]
       if not os.path.exists(self.save_path):
@@ -37,8 +39,13 @@ class API:
       if self.model is None:
           return "Please set model path before predicting"
       
+      return_value = 0
+      
       for input_path in input_path_list:
           image = cv2.imread(input_path)
+          if image is None:
+             return_value = -1
+             continue
           # Remove image_size and imgsz parameter
           results = self.model.predict(image, conf=conf_threshold)[0]
           if not os.path.exists(self.save_path):
@@ -46,6 +53,7 @@ class API:
 
           draw_and_save(results, find_output_path(input_path, self.save_path), image)
           generate_text(results, find_output_path(input_path, self.save_path, ".txt"))
+      return return_value
 
 
 

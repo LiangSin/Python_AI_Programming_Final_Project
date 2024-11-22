@@ -12,12 +12,14 @@ def natural_sort(list, key=lambda s:s):
   list.sort(key=sort_key)
 
 def scan_all_images(folder_path):
-  extensions = ['.%s' % fmt.data().decode("ascii").lower() for fmt in QImageReader.supportedImageFormats()]
+  cv2_supported_formats = ('.png', '.jpg', '.jpeg', '.bmp', '.tiff', '.tif', '.webp')
+  # extensions = ['.%s' % fmt.data().decode("ascii").lower() for fmt in QImageReader.supportedImageFormats()]
   images = []
 
   for root, dirs, files in os.walk(folder_path):
     for file in files:
-      if file.lower().endswith(tuple(extensions)):
+      # if file.lower().endswith(tuple(extensions)):
+      if file.lower().endswith(cv2_supported_formats):
         relative_path = os.path.join(root, file)
         path = os.path.abspath(relative_path)
         images.append(path)
