@@ -9,6 +9,7 @@ We also provide recommendations for beginners on how to prepare their datasets e
 
 [YOLOv8](https://docs.ultralytics.com/models/yolov8/) is renowned for its speed and accuracy in object detection tasks. It offers a flexible API that makes training and testing straightforward. In this project, we chose the YOLOv8 Nano model (YOLOv8n) to train our detection model, striking a balance between performance and efficiency.
 
+
 ## COCO Dataset
 
 The [COCO](https://cocodataset.org/#home) dataset is a large-scale dataset for common object detection, segmentation, and captioning. It contains over 100,000 labeled images and 80 object categories, making it an popular choice for training and evaluating object detection models.
@@ -22,24 +23,31 @@ Our scripts for working with COCO data can be found in the `COCO_tool` folder.
 To experiment with smaller datasets, we use the COCO API to extract and prepare subsets while preserving the original data distribution. We employ pandas for analyzing the distribution of images and annotations, ensuring that our experiments are well-founded. This method enables us to evaluate how the YOLOv8 model performs with different dataset sizes. After segmenting the dataset, we download the corresponding image files and convert the annotations to a YOLO-compatible format.
 
 ## GUI
+We develop our own GUI with PyQt5, you can add functions to fit your requirements.
+
+![UI](https://hackmd.io/_uploads/Hk94B7o7Je.jpg)
 
 ## Experiment: Impact of Training Dataset Size
 
 We conducted experiments to evaluate how the size of the training dataset affects model performance. We trained YOLOv8 models on subsets of the COCO dataset with varying sizes (e.g., 1%, 5%, 20%, 60% of the original data) and analyzed the results in terms of metrics such as mAP (mean Average Precision), precision, and recall. Our findings are particularly useful for those with limited hardware resources or data, as they provide insights into the trade-offs between performance and dataset size.
 
 ### Key Findings
+> You can see [Full Results](https://hackmd.io/1Gch-BFSQ5eFCG9Xu4EOLw) here.
 
+![category_performnace_map5095](https://hackmd.io/_uploads/SJijemsXyx.png)
+![model_performance_dataset_size](https://hackmd.io/_uploads/rJNPKbsQ1l.png)
+- **40% as a Sweet Spot**: Training with 40% of the dataset provides a strong performance baseline. Further increasing the dataset size shows diminishing returns in model improvement.
+**Low Data Requirement for Distinct Objects**: If your target object is large and distinct (e.g., a "cat"), approximately 1,700 images are sufficient for training.
+**High Data Requirement for Confusing Objects**: For objects that are easily confused with others, you'll need a significantly larger dataset, with at least 6,000 images recommended for reliable performance.
 
-
-## User Guide
-
+## Setup
 To learn how to use our tools and scripts, refer to `useful_scripts.ipynb`, which provides an overview of file usage and instructions. 
 
 ### Datatset Preparation
 
 1. **Download COCO dataset annotation files**
     COCO annotation files provide structured data to describe images in the COCO dataset. These files use JSON format to store metadata, including image IDs, categories, bounding boxes, segmentation masks, and keypoints.  
-
+    
 2. **Download COCO dataset images**
 
 3. **Parse COCO annotation files** 
