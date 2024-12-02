@@ -37,8 +37,8 @@ We conducted experiments to evaluate how the size of the training dataset affect
 ![category_performnace_map5095](https://hackmd.io/_uploads/SJijemsXyx.png)
 ![model_performance_dataset_size](https://hackmd.io/_uploads/rJNPKbsQ1l.png)
 - **40% as a Sweet Spot**: Training with 40% of the dataset provides a strong performance baseline. Further increasing the dataset size shows diminishing returns in model improvement.
-**Low Data Requirement for Distinct Objects**: If your target object is large and distinct (e.g., a "cat"), approximately 1,700 images are sufficient for training.
-**High Data Requirement for Confusing Objects**: For objects that are easily confused with others, you'll need a significantly larger dataset, with at least 6,000 images recommended for reliable performance.
+- **Low Data Requirement for Distinct Objects**: If your target object is large and distinct (e.g., a "cat"), approximately 1,700 images are sufficient for training.
+- **High Data Requirement for Confusing Objects**: For objects that are easily confused with others, you'll need a significantly larger dataset, with at least 6,000 images recommended for reliable performance.
 
 ## Setup
 To learn how to use our tools and scripts, refer to `useful_scripts.ipynb`, which provides an overview of file usage and instructions. 
