@@ -45,15 +45,14 @@ To learn how to use our tools and scripts, refer to `useful_scripts.ipynb`, whic
 
 ### Datatset Preparation
 
-1. **Download COCO dataset annotation files**
-    COCO annotation files provide structured data to describe images in the COCO dataset. These files use JSON format to store metadata, including image IDs, categories, bounding boxes, segmentation masks, and keypoints.  
+1. **Download COCO dataset annotation files**: 
+ COCO annotation files provide structured data to describe images in the COCO dataset. These files use JSON format to store metadata, including image IDs, categories, bounding boxes, segmentation masks, and keypoints.  
     
-2. **Download COCO dataset images**
+1. **Download COCO dataset images**
 
-3. **Parse COCO annotation files** 
-    `COCO_tool/create_subset.py` creates a subset of a COCO dataset based on a specified proportion, ensuring every category is represented at least once. It randomly selects images while maintaining category diversity, extracts their annotations, and saves the subset in COCO format as a new JSON file. The output is stored in a  `annotations/subsets` directory for further use.
-5. **Convert COCO annotation files to YOLO annotation format**
-    `COCO_tool/create_YOLO_dataset.py` transforms COCO annotation files into YOLO-compatible format. It also removes images without annotation files from the dataset.
+2. **Parse COCO annotation files**:  `COCO_tool/create_subset.py` creates a subset of a COCO dataset based on a specified proportion, ensuring every category is represented at least once. It randomly selects images while maintaining category diversity, extracts their annotations, and saves the subset in COCO format as a new JSON file. The output is stored in a  `annotations/subsets` directory for further use.
+3. **Convert COCO annotation files to YOLO annotation format**: 
+`COCO_tool/create_YOLO_dataset.py` transforms COCO annotation files into YOLO-compatible format. It also removes images without annotation files from the dataset.
 
 ### Train
 
