@@ -81,7 +81,7 @@ def draw_and_save(results, output_path, image):
         cv2.rectangle(image, (x1, y1), (x2, y2), color, thickness)
         
         # Display class name and score above the rectangle with scaled font size and thickness
-        cv2.putText(image, label, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX,
+        cv2.putText(image, label, (x1 + 5*thickness, y1 + 10*thickness), cv2.FONT_HERSHEY_SIMPLEX,
                     fontScale=fontScale, color=color, thickness=thickness, lineType=cv2.LINE_AA)
     
     # Save the processed image
